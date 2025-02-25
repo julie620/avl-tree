@@ -13,30 +13,31 @@ class Manager{
         Node* rotateRight(Node* parent);
         Node* rotateLeft(Node* parent);
         void balancing(int balance, int isbn,  Node* hold, Node* parent, Node* newParent);
-        bool add(std::string title, std::string authorLast, std::string authorFirst,
+        void add(std::string title, std::string authorLast, std::string authorFirst,
             std::string publisher, std::string publicationDate, std::string genre,
             std::string synopsis, int isbn);
-        bool remove(int isbn);
+        void addOpt();
+        void remove(int isbn);
         void removeLeaf(Node* current, Node* parent, int isbn);
-        void removeChildR(Node* current, Node* parent, int isbn);
-        void removeChildL(Node* current, Node* parent, int isbn);
+        void removeChild(Node* current, Node* parent, int isbn);
         void removeTwoChild(Node* current, Node* parent);
+        void removeOpt();
         bool validMod(int isbn);
         Node* modNode(int isbn);
         bool modify(std::string title, std::string authorLast, std::string authorFirst, 
             std::string publisher, std::string publicationDate, std::string genre, 
             std::string synopsis, int isbn);
-        Node* traversal();
+        int entryIndex();
+        int fieldOpt();
+        void modifyOpt();
         void inorder();
         void preorder();
         void postorder();
-        std::string title(int isbn);
-        std::string authorLast(int isbn);
-        std::string  authorFirst(int isbn);
-        std::string publisher(int isbn);
-        std::string publicationDate(int isbn);
-        std::string genre(int isbn);
-        std::string synopsis(int isbn);
+        int lookupType();
+        void lookupOpt();
+        void menuOpt();
+        bool menuChoice();
+        void run();
 };
 
 #endif 
