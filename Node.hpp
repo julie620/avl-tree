@@ -13,10 +13,10 @@
         std::string genre;
         std::string synopsis;
         int isbn;
-
     protected:
         Node* left;
         Node* right;
+        int height;
         friend class Manager;
 
     public:

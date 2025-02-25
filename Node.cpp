@@ -12,7 +12,8 @@
 
         Node* left;
         Node* right;
-
+        int height;
+    
     Node::Node(std::string title, std::string authorLast, std::string authorFirst, std::string publisher,
         std::string publicationDate, std::string genre, std::string synopsis, int isbn) {
             this->title = title;
@@ -23,6 +24,7 @@
             this->genre = genre;
             this->synopsis = synopsis;
             this->isbn = isbn;
+            height = 1;
         }
 
     Node::Node(std::string title, std::string authorLast, std::string authorFirst, std::string publisher,
@@ -37,7 +39,8 @@
         this->isbn = isbn;
         this->left = left;
         this->right = right;
-        }
+        height = 1;
+    }
 
         std::string Node::getTitle() {
             return title;

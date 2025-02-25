@@ -11,6 +11,97 @@
             root = nullptr;
         } 
 
+        int Manager::height(Node* node) {
+            if (node == nullptr) {
+                return 0;
+            }
+            return node->height;
+        }
+
+        int Manager::balanceFactor(Node* node) {
+            if (node == nullptr) {
+                return 0;
+            }  
+            //std::cout << std::to_string(height(node->left)) << std::endl;
+            //std::cout << std::to_string(height(node->right)) << std::endl;
+            return height(node->left) - height (node->right);
+        }
+
+        void Manager::printBF(int isbn) {
+            Node* current = root;
+            Node* parent = nullptr;
+            while(current != nullptr && current->getISBN() != isbn){
+                if (isbn < current->getISBN()){
+                    parent = current;
+                    current = current->left;
+                } else if (isbn > current->getISBN()) {
+                    parent = current;
+                    current = current->right;
+                }
+            }
+
+        }
+
+        Node* Manager::rotateRight(Node* parent) {
+            Node* x = parent->left;
+            Node* temp = x->right;
+
+            x->right = parent;
+            parent->left = temp;
+
+            parent->height = std::max(height(parent->left), height(parent->right)) + 1;
+            x->height = std::max(height(x->left), height(x->right)) + 1;
+
+            return x;
+        }
+
+        Node* Manager::rotateLeft(Node* parent) {
+            Node* y = parent->right;
+            Node* temp = y->left;
+
+            y->left = parent;
+            parent->right = temp;
+
+            parent->height = std::max(height(parent->left), height(parent->right)) + 1;
+            y->height = std::max(height(y->left), height(y->right)) + 1;
+
+            return y;
+        }
+
+        void Manager::balancing(int balance, int isbn, Node* hold, Node* parent) {
+            if(balance > 1 && isbn < parent->isbn) {
+                std::cout << "LL" << std::endl;
+                if (hold == root) {
+                    root = rotateRight(hold);
+                } else {
+                    hold = rotateRight(hold);
+                }
+            } else if (balance > 1 && isbn > parent->isbn) {
+                std::cout << "LR" << std::endl;
+                hold->left = rotateLeft(hold->left);
+                if (hold == root) {
+                    root = rotateRight(hold);
+                } else {
+                    hold = rotateRight(hold);
+                }
+            } else if (balance < -1 && isbn > parent->isbn) {
+                std::cout << "RR" << std::endl;
+                if (hold == root) {
+                    root = rotateLeft(hold);
+                } else {
+                    hold = rotateLeft(hold);
+                }
+            } else if (balance < -1 && isbn < parent->isbn) {
+                std::cout << "RL" << std::endl;
+                hold->right = rotateRight(hold->right);
+                if (hold == root) {
+                    root = rotateLeft(hold);
+                } else {
+                    hold = rotateLeft(hold);
+                }
+            }
+        }
+
         bool Manager::add(std::string title, std::string authorLast, std::string authorFirst,
             std::string publisher, std::string publicationDate, std::string genre, 
             std::string synopsis, int isbn) {
@@ -38,6 +129,28 @@
                 } else {
                     parent->right = temp;
                 }
+                Node* current2 = root;
+                Node* parent2 = root;
+                std::stack<Node*> ancestors;
+                while (current2 != temp) {
+                    if (isbn < current2->getISBN()){
+                        parent2 = current2;
+                        current2 = current2->left;
+                        ancestors.push(parent2);
+                    } else if(isbn > current2->getISBN()){
+                        parent2 = current2;
+                        current2 = current2->right;
+                        ancestors.push(parent2);
+                    }
+                }
+                Node* hold = nullptr;
+                while(!ancestors.empty()) {
+                    hold = ancestors.top();
+                    hold->height = 1 + std::max(height(hold->left), height(hold->right));
+                    ancestors.pop();
+                    int balance = balanceFactor(hold);
+                    balancing(balance, isbn, hold, parent);
+                }
                 return true;
             }
         }
@@ -45,13 +158,19 @@
         bool Manager::remove(int isbn) {
             Node* current = root;
             Node* parent = nullptr;
+            /*
+            Node* temp = nullptr;
+            std::stack<Node*> ancestors;
+            */
             while(current != nullptr && current->getISBN() != isbn){
                 if (isbn < current->getISBN()){
                     parent = current;
                     current = current->left;
+                    //ancestors.push(parent);
                 } else if (isbn > current->getISBN()) {
                     parent = current;
                     current = current->right;
+                    //ancestors.push(parent);
                 } else {
                     return false;
                 }
@@ -65,6 +184,13 @@
             } else {
                 removeTwoChild(current, parent);
             }
+            /*
+            while(!ancestors.empty()) {
+                temp = ancestors.top();
+                temp->height = 1 + std::max(height(temp->left), height(temp->right));
+                ancestors.pop();
+            }
+                */
             return true;
         }
 
