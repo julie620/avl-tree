@@ -10,10 +10,9 @@ class Manager{
         Manager();
         int height(Node* node);
         int balanceFactor(Node* node);
-        void printBF(int isbn);
         Node* rotateRight(Node* parent);
         Node* rotateLeft(Node* parent);
-        void balancing(int balance, int isbn,  Node* hold, Node* parent);
+        void balancing(int balance, int isbn,  Node* hold, Node* parent, Node* newParent);
         bool add(std::string title, std::string authorLast, std::string authorFirst,
             std::string publisher, std::string publicationDate, std::string genre,
             std::string synopsis, int isbn);
