@@ -247,7 +247,19 @@
                 parent2 = replacement;
                 replacement = replacement->left;
             }
-            removeLeaf(replacement, parent2, replacement->getISBN());
+            if (parent2->left == nullptr|| parent2->right  == nullptr) {
+                if (parent2->right == nullptr) {
+                    parent2->left = nullptr;
+                } else {
+                    parent2->right = nullptr;
+                }
+            } else {
+                if (parent2->left->getISBN() == replacement->isbn) {
+                    parent2->left = nullptr;
+                } else {
+                    parent2->right = nullptr;
+                }
+            }
             if (current->right != nullptr || current->left != nullptr) {
                 if (current->right != nullptr) {
                     replacement->right = current->right;
