@@ -1,4 +1,4 @@
-## Lab 5 - AVL Tree
+## Library Manager (AVL Tree)
 
 This program allows you to add book information to an AVL Tree 
 
