@@ -13,6 +13,3 @@ The program takes in the following information about a book and stores it as a n
 * Genre
 * Synopsis
 * ISBN (Key)
-
-Juliana Serrano\
-02/25/2025
